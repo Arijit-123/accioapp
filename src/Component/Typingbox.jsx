@@ -5,11 +5,22 @@ function Typingbox(props) {
   const inputTextref=  useRef(null);
    const [currwordIndex,setcurrwordIndex]=  useState(0)
    const [currCharIndex, setCurrCharIndex] = useState(0)
-  const wordsspanref= Array(props.words.length).fill(0).map(i=>createRef(null));
+  const  wordsspanref= Array(props.words.length).fill(0).map(i=>createRef(null));
   console.log('wordspan array',wordsspanref);
   console.log('array1234', Array[2])
   const handleKeydown=(e)=>{
-    console.log('keypressed',e.key);
+    console.log('wording',wordsspanref[currwordIndex].current.childNodes);
+      let allchildrendown=wordsspanref[currwordIndex].current.childNodes;
+           if(e.key===allchildrendown[currCharIndex].innerText)
+           {
+                console.log('this is the correct key');
+                allchildrendown[currCharIndex].className='char correct'
+            }
+             else{
+                 console.log('wrong key pressed')
+                 allchildrendown[currCharIndex].className='char incorrect'
+                 }
+                 setCurrCharIndex(currCharIndex+1);
   }
   const focusInput=()=>{
     inputTextref.current.focus();

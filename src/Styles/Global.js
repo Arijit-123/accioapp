@@ -49,4 +49,12 @@ body{
 .gapping{
     margin-bottom:10vh;
 }
+.correct{
+    color:green;
+
+}
+
+.incorrect{
+    color:red;
+}
 `;
