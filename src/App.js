@@ -1,15 +1,20 @@
 import Typingbox from "./Component/Typingbox";
 import { GlobalStyle } from "./Styles/Global";
-var randomwords= require('random-words');
+
 function App() {
-const words=randomwords(100);
- console.log('nutin',words);
+
+ 
   return (
     <>
     <div className="canvas">
       <GlobalStyle/>
-      <h1>Sarkaari Stenographer</h1>
-      <Typingbox words={words}/>
+      <h1 style={{"text-align":"center"}}>
+     
+      Sarkaari Stenographer
+      <h6>India's no1 Stenographer platform</h6>
+      </h1>
+     
+      <Typingbox />
       <div className="footer">
       {/* <h1>footer</h1>
       <h1>third</h1> */}

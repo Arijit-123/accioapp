@@ -2,10 +2,11 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle=createGlobalStyle`
 
 body{
-    background:violet;
+    background:black;
     padding:0;
     margin:0;
     transition: all 0.25s linear;
+    color:white;
 }
 
 
@@ -50,11 +51,58 @@ body{
     margin-bottom:10vh;
 }
 .correct{
-    color:green;
+    color:lightgreen;
 
 }
 
 .incorrect{
     color:red;
 }
+
+.nowinone{
+    border-left:1px solid;
+    animation:blinking 2s infinite;
+    animation-timing-function:ease;
+    @keyframes blinking {
+        0% {border-left-color:violet;}
+        25% {border-left-color:black;}
+        50% {border-left-color: violet;}
+        75% {border-left-color:black;}
+        100% {border-left-color:violet;}
+    }
+}
+.left{
+    border-right:1px solid;
+    animation:blinkingRight 2s infinite;
+    animation-timing-function:ease; 
+    @keyframes blinkingRight {
+        0% {border-right-color:violet;}
+        25% {border-right-color:black;}
+        50% {border-right-color: violet;}
+        75% {border-right-color:black;}
+        100% {border-right-color:violet;}
+    }
+}
+
+.upper-menu{
+    display:flex;
+    max-width:1000px;
+    margin-left:auto;
+    margin-right: auto;
+    justify-content:space-between;
+    font-size:20px;
+}
+.time-modes{
+display:flex;
+}
+.time{
+    margin-right:15px;
+    cursor:pointer;
+
+}
+.time:hover{
+    color:yellow;
+
+}
+
 `;

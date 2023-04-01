@@ -1,13 +1,16 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
+import { TestmodecontextProvider } from './Context/Testmode';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+  <TestmodecontextProvider>
     <App />
+    </TestmodecontextProvider>
   </React.StrictMode>
 );
 
