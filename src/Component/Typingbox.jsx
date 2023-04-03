@@ -1,6 +1,7 @@
 import React,{useRef,useEffect, createRef,useState, useMemo} from 'react'
 import { useTestMode } from '../Context/Testmode';
 import Uppermenu from './Uppermenu';
+import Stats from './Stats';
 var randomwords= require('random-words');
 
 function Typingbox() {
@@ -15,9 +16,15 @@ function Typingbox() {
    const [testStart,setTestStart]=useState(false);
    const [testOver,setTestOver]=useState(false);
    const [intervalId,setIntervalId]=useState(null);
+   const [correctwords,setCorrectwords]=useState(false);
+   const [graphData,setGraphData]=useState([]);
+   const [incorrectchar,setIncorrectchar]=useState(0);
+   const [extrachar,setextrachar]=useState(0);
+   const [missedchar,setMissedchar]=useState(0);
    const [wordsArray,setWordsArray]=useState(()=>{
     return randomwords(100);
    });
+   const [correctchar,setCorrectchar]=useState(0);
    const words=useMemo(()=>{
     return wordsArray
    },[wordsArray]);
@@ -44,12 +51,23 @@ function Typingbox() {
    
    const intervalId=setInterval(timer,1000);
    setIntervalId(intervalId);
+
+
     function timer(){
+
       setCountDown((prevCountDown)=>{
+        setCorrectchar((correctchar)=>{
+          setGraphData((data)=>{
+            return [...data,[testTime- prevCountDown,Math.round(correctchar/5/(testTime- prevCountDown+1/60)),],];
+          });
+          return correctchar;
+        })
         if(prevCountDown===1){
+
           clearInterval(intervalId);
           setCountDown(0);
           setTestOver(true);
+
         }
         else{
           return prevCountDown-1;
@@ -78,6 +96,16 @@ function Typingbox() {
     //logic for space
     if(e.keyCode===32)
     {
+      const correctChar = wordsspanref[currwordIndex].current.querySelectorAll('.correct');
+      const incorrectChar = wordsspanref[currwordIndex].current.querySelectorAll('.incorrect');
+      setMissedchar(missedchar+(allchildrendown.length-(incorrectChar.length + correctChar.length)));
+      
+       if(correctChar.length===allchildrendown.length)
+       {
+        setCorrectwords(correctwords+1);
+       }  
+    
+
       //removing the cursor from the word     
       if(allchildrendown.length<=currCharIndex){
         allchildrendown[currCharIndex-1].classList.remove('left');
@@ -131,17 +159,20 @@ function Typingbox() {
     allchildrendown[currCharIndex-1].className=allchildrendown[currCharIndex-1].className.replace('left','');
       wordsspanref[currwordIndex].current.append(newSpan);
       setCurrwordIndex(currwordIndex+1);
+      setextrachar(extrachar+1);
       return;
     }
   
            if(e.key===allchildrendown[currCharIndex].innerText)
            {
                 console.log('this is the correct key');
-                allchildrendown[currCharIndex].className='char correct'
+                allchildrendown[currCharIndex].className='char correct';
+                setCorrectchar(correctchar+1);
             }
              else{
                  console.log('wrong key pressed')
                  allchildrendown[currCharIndex].className='char incorrect'
+                 setIncorrectchar(incorrectchar+1);
                  }
                 
              if(currCharIndex+1 === allchildrendown.length){
@@ -153,6 +184,14 @@ function Typingbox() {
                  }
                  setCurrCharIndex(currCharIndex+1);
                 }
+
+  const calculateWrm=()=>{
+    return Math.round((correctchar/5)/(testTime/60))
+  }
+
+  const Accuracycalculator=()=>{
+    return Math.round((correctwords/currwordIndex)*100);
+  }
 
 const resetTest=()=>{
   setCurrCharIndex(0);
@@ -181,8 +220,10 @@ const resetTest=()=>{
   }, [])
   return (
     <>
-    <Uppermenu countDown={countDown}/>
-    {testOver?(<h1>Test Over</h1>):(
+   
+    {testOver?(<h1><Stats wpm={calculateWrm()}  accuracy={Accuracycalculator()} graphdata={graphData} correctChar={correctchar} incorrectChar={incorrectchar} extrachar={extrachar}/></h1>):(
+      <>
+      <Uppermenu countDown={countDown} />
     <div className='typewritter  container'>
     <div className='words card'>
      {words.map((item,index)=>(
@@ -197,7 +238,10 @@ const resetTest=()=>{
     </div>
 
 
-    </div>)}
+    </div>
+    </>
+    )}
+   
     <div className='gapping'>
 
     </div>

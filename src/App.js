@@ -8,12 +8,12 @@ function App() {
     <>
     <div className="canvas">
       <GlobalStyle/>
-      <h1 style={{"text-align":"center"}}>
+      <h1 style={{"text-align":"center", "color":"yellow"}}>
      
       Sarkaari Stenographer
-      <h6>India's no1 Stenographer platform</h6>
+    
       </h1>
-     
+      <h4  style={{"text-align":"center"}}>India's no1 Stenographer platform</h4>
       <Typingbox />
       <div className="footer">
       {/* <h1>footer</h1>
